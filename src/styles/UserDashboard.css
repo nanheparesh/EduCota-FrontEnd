@@ -1,0 +1,104 @@
+
+.user-dashboard {
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .user-header {
+    display: flex;
+    border-radius: 8px;
+    width: 1300px;
+    justify-content: space-between;
+    align-items: center;
+    background: #333;
+    color: white;
+    padding: 15px 20px;
+    position: relative;
+    bottom: 130px;
+  }
+  
+  .user-header h1 {
+    font-size: 22px;
+  }
+  
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .logout-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .logout-btn:hover {
+    background: darkred;
+  }
+  
+  .courses-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Grid layout */
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 0 20px;
+  }
+
+  .h2{
+    position: relative;
+    bottom: 100px;
+  }
+  
+  .course-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+    position: relative;
+    bottom: 200px;
+  }
+  
+  .course-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .course-card h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  
+  .course-card p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .course-price {
+    font-weight: bold;
+    color: green;
+    margin-top: 10px;
+  }
+  
+  .enroll-btn {
+    background: blue;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .enroll-btn:hover {
+    background: darkblue;
+  }
+  

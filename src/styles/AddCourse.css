@@ -1,0 +1,48 @@
+.add-course-container {
+    text-align: center;
+    padding: 50px;
+    max-width: 500px;
+    margin: auto;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-course-container h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .add-course-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-course-container input,
+  .add-course-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .add-course-container button {
+    background: blue;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .add-course-container button:hover {
+    background: darkblue;
+  }
+  
+  .back-btn {
+    margin-top: 10px;
+    background: gray;
+  }
+  
