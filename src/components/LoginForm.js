@@ -20,25 +20,17 @@ function LoginForm() {
   
       console.log("🔑 Login Response:", response.data);  // Debugging API response
   
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("token", response.data.token); // Store only the token
       localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("isAdmin", JSON.stringify(response.data.isAdmin)); 
   
-      console.log("👀 Is Admin?", response.data.isAdmin);  // Debugging isAdmin value
-  
-      if (response.data.isAdmin) {
-        localStorage.setItem("isAdmin", "true");
-        console.log("🛠 Redirecting to: /admin-dashboard"); // Debugging
-        navigate("/admin-dashboard", { replace: true });
-      } else {
-        localStorage.setItem("isAdmin", "false");
-        console.log("🛠 Redirecting to: /user-dashboard"); // Debugging
-        navigate("/user-dashboard", { replace: true });
-      }
+      console.log("🛠 Redirecting to dashboard...");
+      window.location.href = "/dashboard"; // Redirect to a common dashboard
     } catch (error) {
       console.error("❌ Login Error:", error.response?.data?.message || error.message);
       alert(error.response?.data?.message || "Login failed");
     }
-  };      
+  };  
   
   return (
     <div className="form-container">
