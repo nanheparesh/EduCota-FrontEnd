@@ -17,7 +17,7 @@ function LoginForm() {
   
     try {
       const response = await axios.post(
-        "https://edu-cota-back-end.vercel.app/auth/login",
+        "https://edu-cota-back-end.vercel.app/login",
         { email, password }
       );
   
