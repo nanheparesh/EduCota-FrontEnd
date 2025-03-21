@@ -15,9 +15,11 @@ function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
   
+    const { email, password } = formData; // Destructure email and password from formData
+  
     try {
       const response = await axios.post(
-        "https://edu-cota-back-end.vercel.app/login",
+        "https://edu-cota-back-end.vercel.app/auth/login",
         { email, password }
       );
   
