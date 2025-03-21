@@ -17,7 +17,7 @@ function LoginForm() {
   
     try {
       const response = await axios.post(
-        "https://edu-cota-back-end.vercel.app/auth/login",  // ✅ Check this API URL
+        "https://edu-cota-back-end.vercel.app/auth/login",  // ✅ Ensure this is correct
         { email, password },
         { headers: { "Content-Type": "application/json" } }
       );
