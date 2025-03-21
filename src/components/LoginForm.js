@@ -12,32 +12,25 @@ function LoginForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
   
     try {
       const response = await axios.post(
-        "https://edu-cota-back-end.vercel.app/auth/login",  // ✅ Correct URL
-        { email, password },
-        { headers: { "Content-Type": "application/json" } }
+        "https://edu-cota-back-end.vercel.app/auth/login",
+        { email, password }
       );
   
-      console.log("✅ Login successful:", response.data);
+      console.log("✅ Login Response:", response.data);
   
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("isAdmin", JSON.stringify(response.data.isAdmin));
-      localStorage.setItem("isAuthenticated", "true");
-  
-      if (response.data.isAdmin) {
-        navigate("/admin-dashboard");
-      } else {
-        navigate("/user-dashboard");
-      }
+      localStorage.setItem("isAdmin", response.data.isAdmin);
+      navigate(response.data.isAdmin ? "/admin-dashboard" : "/user-dashboard");
     } catch (error) {
       console.error("❌ Login Error:", error.response?.data?.message || error.message);
-      alert(error.response?.data?.message || "Login failed. Try again!");
+      alert("Login failed! Check your email and password.");
     }
-  };    
+  };
   
   return (
     <div className="form-container">
