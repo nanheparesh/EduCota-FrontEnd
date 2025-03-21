@@ -4,7 +4,7 @@ import RegistrationForm from "./components/RegistrationForm";
 import LoginForm from "./components/LoginForm";
 import UserDashboard from "./pages/UserDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
-import AddCourse from "./pages/AddCourse"; // Import New Page
+import AddCourse from "./pages/AddCourse";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -12,9 +12,11 @@ function App() {
 
   useEffect(() => {
     // Get values from localStorage on component mount
-    setIsAuthenticated(JSON.parse(localStorage.getItem("isAuthenticated") || "false"));
-    setIsAdmin(JSON.parse(localStorage.getItem("isAdmin") || "false"));
-  }, []); // Runs only once when the app loads
+    const auth = localStorage.getItem("isAuthenticated");
+    const admin = localStorage.getItem("isAdmin");
+    setIsAuthenticated(auth === "true"); // Convert string to boolean
+    setIsAdmin(admin === "true"); // Convert string to boolean
+  }, []);
 
   console.log("🚀 App.js State:", { isAuthenticated, isAdmin }); // Debugging
 
@@ -24,9 +26,18 @@ function App() {
         <Route path="/" element={<Navigate to="/register" />} />
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/user-dashboard" element={isAuthenticated ? <UserDashboard /> : <Navigate to="/login" />} />
-        <Route path="/admin-dashboard" element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" />} />
-        <Route path="/add-course" element={isAdmin ? <AddCourse /> : <Navigate to="/admin-dashboard" />} />
+        <Route
+          path="/user-dashboard"
+          element={isAuthenticated ? <UserDashboard /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/admin-dashboard"
+          element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/add-course"
+          element={isAdmin ? <AddCourse /> : <Navigate to="/admin-dashboard" />}
+        />
       </Routes>
     </Router>
   );

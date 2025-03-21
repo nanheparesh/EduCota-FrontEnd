@@ -6,6 +6,7 @@ import "../styles/global.css";
 function LoginForm() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [loginSuccess, setLoginSuccess] = useState(false); // Success state
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -15,6 +16,7 @@ function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true); // Start loading
+    setLoginSuccess(false); // Reset success state
 
     const { email, password } = formData;
 
@@ -26,12 +28,18 @@ function LoginForm() {
 
       console.log("✅ Login Response:", response.data);
 
-      // Store token and role in localStorage
+      // Store token, isAuthenticated, and isAdmin in localStorage
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("isAdmin", response.data.isAdmin);
+      localStorage.setItem("isAuthenticated", "true"); // Update isAuthenticated
+      localStorage.setItem("isAdmin", response.data.isAdmin.toString()); // Update isAdmin
 
-      // Redirect based on role
-      navigate(response.data.isAdmin ? "/admin-dashboard" : "/user-dashboard");
+      // Show success message
+      setLoginSuccess(true);
+
+      // Redirect after a short delay (e.g., 2 seconds)
+      setTimeout(() => {
+        navigate(response.data.isAdmin ? "/admin-dashboard" : "/user-dashboard");
+      }, 2000); // 2 seconds delay
     } catch (error) {
       console.error("❌ Login Error:", error.response?.data?.message || error.message);
       alert("Login failed! Check your email and password.");
@@ -66,6 +74,9 @@ function LoginForm() {
           {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
+      {loginSuccess && (
+        <p className="success-message">✅ Login successful! Redirecting...</p>
+      )}
       <p>
         Don't have an account? <a href="/register">Register</a>
       </p>
