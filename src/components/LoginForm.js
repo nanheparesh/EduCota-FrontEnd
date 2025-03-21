@@ -16,7 +16,10 @@ function LoginForm() {
     e.preventDefault();
   
     try {
-      const response = await axios.post("https://edu-cota-back-end.vercel.app/api/login", formData);
+      const response = await axios.post("https://edu-cota-back-end.vercel.app/auth/login", {
+        email,
+        password,
+      });      
   
       console.log("🔑 Login Response:", response.data);  // Debugging API response
   
