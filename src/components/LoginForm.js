@@ -5,44 +5,70 @@ import "../styles/global.css";
 
 function LoginForm() {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
-  // Place `handleChange` function here, before `return`
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    const { email, password } = formData; // Destructure email and password from formData
-  
+    setIsLoading(true); // Start loading
+
+    const { email, password } = formData;
+
     try {
       const response = await axios.post(
         "https://edu-cota-back-end.vercel.app/auth/login",
         { email, password }
       );
-  
+
       console.log("✅ Login Response:", response.data);
-  
+
+      // Store token and role in localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("isAdmin", response.data.isAdmin);
+
+      // Redirect based on role
       navigate(response.data.isAdmin ? "/admin-dashboard" : "/user-dashboard");
     } catch (error) {
       console.error("❌ Login Error:", error.response?.data?.message || error.message);
       alert("Login failed! Check your email and password.");
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
-  
+
   return (
     <div className="form-container">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="Email" className="input-field" />
-        <input type="password" name="password" value={formData.password} onChange={handleChange} required placeholder="Password" className="input-field" />
-        <button type="submit" className="submit-btn">Login</button>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          placeholder="Email"
+          className="input-field"
+        />
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+          placeholder="Password"
+          className="input-field"
+        />
+        <button type="submit" className="submit-btn" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
+        </button>
       </form>
-      <p>Don't have an account? <a href="/register">Register</a></p>
+      <p>
+        Don't have an account? <a href="/register">Register</a>
+      </p>
     </div>
   );
 }
