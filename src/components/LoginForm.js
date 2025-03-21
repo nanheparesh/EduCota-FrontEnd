@@ -15,36 +15,30 @@ function LoginForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsLoading(true); // Start loading
-    setLoginSuccess(false); // Reset success state
-
+    setIsLoading(true);
+  
     const { email, password } = formData;
-
+  
     try {
-      const response = await axios.post(
-        "https://edu-cota-back-end.vercel.app/auth/login",
-        { email, password }
-      );
-
+      const response = await axios.post("/auth/login", { email, password });
+  
       console.log("✅ Login Response:", response.data);
-
-      // Store token, isAuthenticated, and isAdmin in localStorage
+  
+      // Store token and isAdmin in localStorage
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("isAuthenticated", "true"); // Update isAuthenticated
-      localStorage.setItem("isAdmin", response.data.isAdmin.toString()); // Update isAdmin
-
-      // Show success message
-      setLoginSuccess(true);
-
-      // Redirect after a short delay (e.g., 2 seconds)
-      setTimeout(() => {
-        navigate(response.data.isAdmin ? "/admin-dashboard" : "/user-dashboard");
-      }, 2000); // 2 seconds delay
+      localStorage.setItem("isAdmin", response.data.isAdmin);
+  
+      // Redirect based on role
+      if (response.data.isAdmin) {
+        navigate("/admin-dashboard"); // Redirect to admin dashboard
+      } else {
+        navigate("/user-dashboard"); // Redirect to user dashboard
+      }
     } catch (error) {
       console.error("❌ Login Error:", error.response?.data?.message || error.message);
       alert("Login failed! Check your email and password.");
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
