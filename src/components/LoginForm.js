@@ -17,7 +17,7 @@ function LoginForm() {
   
     try {
       const response = await axios.post(
-        "https://edu-cota-back-end.vercel.app/auth/login", // ✅ Make sure this is correct
+        "https://edu-cota-back-end.vercel.app/auth/login",  // ✅ Check this API URL
         { email, password },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -37,7 +37,7 @@ function LoginForm() {
       console.error("❌ Login Error:", error.response?.data?.message || error.message);
       alert(error.response?.data?.message || "Login failed. Try again!");
     }
-  };    
+  };  
   
   return (
     <div className="form-container">
