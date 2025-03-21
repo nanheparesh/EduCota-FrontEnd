@@ -17,46 +17,67 @@ function AdminDashboard() {
           navigate("/login", { replace: true });
           return;
         }
-  
-        const response = await axios.get("https://edu-cota-back-end.vercel.app/api/check-admin", {
+
+        // ✅ Use the correct endpoint: /auth/check-admin
+        const response = await axios.get("https://edu-cota-back-end.vercel.app/auth/check-admin", {
           headers: { Authorization: `Bearer ${token}` },
         });
-  
+
         console.log("👀 Admin Status:", response.data);
-  
+
         if (!response.data.isAdmin) {
-          alert("❌ Unauthorized access! Redirecting...");
+          setError("❌ Unauthorized access! Redirecting...");
           navigate("/login", { replace: true });
         } else {
           setLoading(false);
         }
       } catch (error) {
         console.error("❌ Error verifying admin:", error.message);
-        alert("❌ Server Error! Redirecting...");
+        setError("❌ Server Error! Redirecting...");
         navigate("/login", { replace: true });
       }
     };
-  
+
     fetchAdminStatus();
-  }, [navigate]);  
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("isAdmin"); // Clear admin status
     navigate("/login");
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return <p>Loading...</p>; // You can replace this with a spinner or better loading UI
+  }
+
+  if (error) {
+    return <p>{error}</p>; // Display error message in the UI
+  }
 
   return (
     <div>
       <nav className="admin-navbar">
         <h1 className="admin-title">EduCota</h1>
-        <button className="add-course-btn" onClick={() => navigate("/add-course")}>Add Course</button>
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        <button className="add-course-btn" onClick={() => navigate("/add-course")}>
+          Add Course
+        </button>
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
       </nav>
       <div className="admin-container">
         <h2>Welcome, Admin!</h2>
         {/* Courses will be shown here */}
+        {courses.length > 0 ? (
+          <ul>
+            {courses.map((course) => (
+              <li key={course._id}>{course.name}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>No courses available.</p>
+        )}
       </div>
     </div>
   );

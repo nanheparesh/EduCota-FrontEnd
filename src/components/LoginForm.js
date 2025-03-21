@@ -28,17 +28,33 @@ function LoginForm() {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("isAdmin", response.data.isAdmin);
   
+      // Verify admin status
+      await checkAdminStatus();
+  
       // Redirect based on role
       if (response.data.isAdmin) {
-        navigate("/admin-dashboard"); // Redirect to admin dashboard
+        navigate("/admin-dashboard");
       } else {
-        navigate("/user-dashboard"); // Redirect to user dashboard
+        navigate("/user-dashboard");
       }
     } catch (error) {
       console.error("❌ Login Error:", error.response?.data?.message || error.message);
       alert("Login failed! Check your email and password.");
     } finally {
       setIsLoading(false);
+    }
+  };
+  
+  const checkAdminStatus = async () => {
+    try {
+      const response = await axios.get("/auth/check-admin", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      console.log("Admin status:", response.data.isAdmin);
+    } catch (error) {
+      console.error("❌ Error verifying admin:", error);
     }
   };
 
